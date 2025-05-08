@@ -1,0 +1,7 @@
+Flask
+Pillow
+piexif
+exifread
+GPSPhoto
+selenium
+webdriver-manager
