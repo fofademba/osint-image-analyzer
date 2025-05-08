@@ -1,0 +1,80 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Analyse OSINT & Métadonnées</title>
+    <style>
+        body { font-family: Arial; max-width: 800px; margin: auto; padding: 20px; }
+        h1 { color: #2c3e50; }
+        .result-item { margin-bottom: 10px; }
+        .platform { font-weight: bold; }
+        .status.available { color: green; }
+        .status.unavailable { color: red; }
+        .section { margin-top: 30px; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Analyse OSINT & Métadonnées d’image</h1>
+
+    <!-- Formulaire de recherche de nom d'utilisateur -->
+    <form method="post">
+        <label for="username">Nom d'utilisateur à rechercher :</label><br>
+        <input type="text" name="username" required>
+        <button type="submit">Rechercher</button>
+    </form>
+
+    <div class="section">
+        <h2>Résultats Sherlock :</h2>
+        {{ result_sherlock|safe }}
+    </div>
+
+    <div class="section">
+        <h2>Résultats Socialscan :</h2>
+        {{ result_socialscan|safe }}
+    </div>
+
+    <div class="section">
+        <h2>🔁 Recherche inversée d'image</h2>
+        <form id="image-form" enctype="multipart/form-data">
+            <input type="file" name="image" accept="image/*" required>
+            <button type="submit">Analyser l’image</button>
+        </form>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        document.getElementById('image-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+
+            fetch('/reverse-image', {
+                method: 'POST',
+                body: formData
+            }).then(response => response.json())
+              .then(data => {
+                if (data.success) {
+                    let html = "<h3>Métadonnées :</h3><ul>";
+                    for (const [key, value] of Object.entries(data.metadata)) {
+                        html += `<li><b>${key}</b>: ${value}</li>`;
+                    }
+                    html += "</ul>";
+
+                    if (data.search_url) {
+                        html += `<p><a href="${data.search_url}" target="_blank">Voir la recherche Google</a></p>`;
+                        html += "<h3>Résultats :</h3><ul>";
+                        data.matches.forEach(match => {
+                            html += `<li><a href="${match.url}" target="_blank">${match.title}</a></li>`;
+                        });
+                        html += "</ul>";
+                    }
+
+                    document.getElementById('result').innerHTML = html;
+                } else {
+                    document.getElementById('result').innerText = "Erreur : " + data.error;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
