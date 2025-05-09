@@ -25,16 +25,17 @@ git clone https://github.com/fofademba/osint-image-analyzer.git
 cd osint-image-analyzer
 
 
-### 2. Créer un environnement virtuel (optionnel mais conseillé)
+2. Créer un environnement virtuel (optionnel mais conseillé)
 
-```bash
+
+```
 python3 -m venv venv
 source venv/bin/activate  # Linux/macOS
 venv\Scripts\activate     # Windows
 
-### 3. Installer les dépendances Python
+3. Installer les dépendances Python
 
-```bash
+
 pip install -r requirements.txt
 
 ### 4. Installer Sherlock et Socialscan
