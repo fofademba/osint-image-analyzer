@@ -23,21 +23,22 @@ Un outil web simple et puissant pour l'analyse OSINT :
 ```bash
 git clone https://github.com/fofademba/osint-image-analyzer.git
 cd osint-image-analyzer
-
+```
 
 2. Créer un environnement virtuel (optionnel mais conseillé)
 
-
-```
+```bash
 python3 -m venv venv
 source venv/bin/activate  # Linux/macOS
 venv\Scripts\activate     # Windows
 
+```
 3. Installer les dépendances Python
-
+   
+```bash
 
 pip install -r requirements.txt
-
+```
 ### 4. Installer Sherlock et Socialscan
 
 ```bash
@@ -46,13 +47,16 @@ git clone https://github.com/sherlock-project/sherlock.git
 cd sherlock
 pip install -r requirements.txt
 cd ..
-
+```
 # Socialscan
+```bash
 pip install socialscan
-
+```
 
 Lancer l'application
+```bash
  python app.py
+```
 Puis ouvre ton navigateur à l'adresse :
 ➡️ http://127.0.0.1:5000
 
